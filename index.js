@@ -26,9 +26,16 @@ let persons = [
     }
 ]
 
+const checkUniqueness = (body, bodyProp) => {
+    const match = persons.filter(person => person[bodyProp] === body[bodyProp])
+    console.log("match", match)
+    if(match.length > 0) {
+        return false
+    }
+    return true
+}
 
 const checkMissing = (body) => {
-    console.log("body", body)
     missing = Object.keys(body)
     .filter(key => !Boolean(body[key]))
     console.log("checkMissing", missing)
@@ -44,6 +51,8 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
+    
+    // check if a property is missing a value
     const missing = checkMissing(body)
     console.log("missing", missing)
     if (missing) {
@@ -52,28 +61,20 @@ app.post('/api/persons', (request, response) => {
         )
     }
 
-    // if (!(body.name && body.number)) {
-    //     return response.status(400).json(
-    //         {error: 'name and number are missing'}
-    //     )
-    // } else if (!body.number) {
-    //     return response.status(400).json(
-    //         {error: 'number is missing'}
-    //     )
-    // } else if (!body.name) {
-    //     return response.status(400).json(
-    //         {error: 'name is missing'}
-    //     )        
-    // }
-
-    // const person = {
-    //     id: generateId(),
-    //     name: body.name,
-    //     number: body.number,
-    // }
-
-    // persons = persons.concat(person)
-    // response.json(person)
+    // check if name is unique
+    if (checkUniqueness(body,"name")) {
+        const person = {
+            id: generateId(),
+            name: body.name,
+            number: body.number,
+        }        
+        persons = persons.concat(person)
+        response.json(person)
+    } else {
+        return response.status(400).json(
+            {error: 'name must be unique'}
+        )
+    }
 })
 
 app.delete('/api/persons/:id', (request, response) => {
