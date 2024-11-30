@@ -39,6 +39,14 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const person = persons[request.params.id]
+    if(person) {
+        response.json(person)
+    } else {
+        response.status(404).send()
+    }
+})
 
 const PORT = 3001
 app.listen(PORT,() => {
