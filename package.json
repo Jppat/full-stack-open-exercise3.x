@@ -1,0 +1,27 @@
+{
+  "name": "phonebook-backend",
+  "version": "1.0.0",
+  "description": "backend for phonebook app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jppat/full-stack-open-exercise3.x.git"
+  },
+  "author": "John Patrick Panizales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jppat/full-stack-open-exercise3.x/issues"
+  },
+  "homepage": "https://github.com/Jppat/full-stack-open-exercise3.x#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
