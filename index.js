@@ -1,7 +1,13 @@
 const express = require('express')
-const app = express()
+const morgan = require('morgan')
 
-app.use(express.json())
+morgan.token('request-body', (request) => {
+    // console.log(request.body, typeof(request.body))
+    // console.log("stringify:", JSON.stringify(request.body), typeof(JSON.stringify(request.body)))
+    return JSON.stringify(request.body)
+})
+
+const app = express()
 
 let persons = [
     { 
@@ -26,9 +32,12 @@ let persons = [
     }
 ]
 
+app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'))
+
 const checkUniqueness = (body, bodyProp) => {
     const match = persons.filter(person => person[bodyProp] === body[bodyProp])
-    console.log("match", match)
+    // console.log("match", match)
     if(match.length > 0) {
         return false
     }
@@ -38,7 +47,7 @@ const checkUniqueness = (body, bodyProp) => {
 const checkMissing = (body) => {
     missing = Object.keys(body)
     .filter(key => !Boolean(body[key]))
-    console.log("checkMissing", missing)
+    // console.log("checkMissing", missing)
 
     if (missing.length > 0) {
         return missing
@@ -46,7 +55,7 @@ const checkMissing = (body) => {
 
 const generateId = () => {
     const id = Math.floor(Math.random() * 1000)
-    console.log("id", id)
+    // console.log("id", id)
 }
 
 app.post('/api/persons', (request, response) => {
@@ -54,7 +63,7 @@ app.post('/api/persons', (request, response) => {
     
     // check if a property is missing a value
     const missing = checkMissing(body)
-    console.log("missing", missing)
+    // console.log("missing", missing)
     if (missing) {
         return response.status(400).json(
             {error: `${missing.join(' and ')} is missing`}
