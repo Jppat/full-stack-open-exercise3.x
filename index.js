@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 morgan.token('request-body', (request) => {
     // console.log(request.body, typeof(request.body))
@@ -34,6 +35,7 @@ let persons = [
 
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'))
+app.use(cors())
 
 const checkUniqueness = (body, bodyProp) => {
     const match = persons.filter(person => person[bodyProp] === body[bodyProp])
