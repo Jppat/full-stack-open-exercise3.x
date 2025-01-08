@@ -99,7 +99,7 @@ app.get('/api/persons/:id', (request, response) => {
     const person = persons.filter(person => person.id === request.params.id)
     console.log(person, Boolean(person))
     // const person = persons[request.params.id]
-    if(person) {
+    if(person.length > 0) {
         response.json(person)
     } else {
         response.status(404).send()
