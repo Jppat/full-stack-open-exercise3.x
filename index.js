@@ -57,6 +57,7 @@ const checkMissing = (body) => {
 
 const generateId = () => {
     const id = Math.floor(Math.random() * 1000)
+    return id.toString()
     // console.log("id", id)
 }
 
@@ -95,7 +96,8 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const person = persons[request.params.id]
+    const person = persons.filter(person => person.id === request.params.id)
+    // const person = persons[request.params.id]
     if(person) {
         response.json(person)
     } else {
