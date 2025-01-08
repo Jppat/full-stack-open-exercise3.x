@@ -97,6 +97,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.get('/api/persons/:id', (request, response) => {
     const person = persons.filter(person => person.id === request.params.id)
+    console.log(person, Boolean(person))
     // const person = persons[request.params.id]
     if(person) {
         response.json(person)
